@@ -59,7 +59,7 @@ a)
 ![image](https://github.com/user-attachments/assets/22752c4e-fc76-4cb5-ad24-e414a3206c7c)
 
 b)  Pentru a scrie un POST request cu datele respective, putem utiliza mai multe instrumente: curl, POSTMAN, etc.
-Exemplu CURL: `curl -L -X POST http://sandbox.com/cars -H "Content-Type: text/plain" -d "make=Toyota&model=Corolla&year=2020"`
+Exemplu CURL: ` curl -L -X POST http://sandbox.com/cars -H "Content-Type: text/plain" -d "make=Toyota&model=Corolla&year=2020" `
 Exemplu POSTMAN:
 ![image](https://github.com/user-attachments/assets/c04eda5b-69fb-4d01-b137-d423055e04b6)
 Acest tip de request va transmite datele respective catre serverul BACKEND pentru a fi salvate sau prelucrare.
@@ -72,7 +72,7 @@ c) Pentru a scrie un PUT request cu datele despective, putem utiliza comanda CUR
 Sau fie prin POSTMAN. Acest tip de request va transmite datele respective pentru a actualiza datele automobilului cu id-ul 1
 
 d) Un posibil response la cererea aterioara ar putea fi:
-`HTTP/1.1 201 Created
+` HTTP/1.1 201 Created
 Content-Type: application/json
 Location: http://sandbox.com/cars/1
 Date: Mon, 11 Sep 2024 12:34:56 GMT
@@ -86,7 +86,7 @@ Date: Mon, 11 Sep 2024 12:34:56 GMT
 }
 `
 e) Pentru a transmite un request de DELETE folosind CURL putem folosi urmatoarea comanda care va sterge automobilul cu ID-ul 1
-`DELETE /cars/1 HTTP/1.1
+` DELETE /cars/1 HTTP/1.1
 Host: sandbox.com
 User-Agent: Spînu Andrei
 `
@@ -95,8 +95,10 @@ User-Agent: Spînu Andrei
 ## Sarcina 3:
 ### Pentru sarcina data, voi utiliza POSTMAN
 ![image](https://github.com/user-attachments/assets/964ecfde-bf80-45cd-8575-9155b3e03962)
+
 In urma request-ului am primit un token pentru a continua
 ![image](https://github.com/user-attachments/assets/68beba27-1007-4eb3-9a2c-ec154760258e)
+
 Dupa ce am trimit codul de autorizare catre http://sandbox.usm.md/quest/login folosind POST, primind instructiunile pentru urmatorul pas
 
 
