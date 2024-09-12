@@ -72,7 +72,8 @@ c) Pentru a scrie un PUT request cu datele despective, putem utiliza comanda CUR
 Sau fie prin POSTMAN. Acest tip de request va transmite datele respective pentru a actualiza datele automobilului cu id-ul 1
 
 d) Un posibil response la cererea aterioara ar putea fi:
-` HTTP/1.1 201 Created
+`
+HTTP/1.1 201 Created
 Content-Type: application/json
 Location: http://sandbox.com/cars/1
 Date: Mon, 11 Sep 2024 12:34:56 GMT
@@ -85,6 +86,7 @@ Date: Mon, 11 Sep 2024 12:34:56 GMT
     "status": "Updated successfully"
 }
 `
+
 e) Pentru a transmite un request de DELETE folosind CURL putem folosi urmatoarea comanda care va sterge automobilul cu ID-ul 1
 ` DELETE /cars/1 HTTP/1.1
 Host: sandbox.com
