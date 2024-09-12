@@ -53,6 +53,12 @@
 ![image](https://github.com/user-attachments/assets/30d33f74-1763-46fc-949d-f8b70e94bbf4)
 
 ## Sarcina 2:
+### Pentru urmatoarea sarcina si pentru a transmite urmatoarele requesturi a fost utilizat POSTMAN
+a)
+![image](https://github.com/user-attachments/assets/d3203466-b68a-41a6-83ea-5a455634e3f8)
+![image](https://github.com/user-attachments/assets/22752c4e-fc76-4cb5-ad24-e414a3206c7c)
+
+b)  
 
 
 
