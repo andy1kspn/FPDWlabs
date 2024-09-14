@@ -103,6 +103,12 @@ In urma request-ului am primit un token pentru a continua
 
 Dupa ce am trimit codul de autorizare catre http://sandbox.usm.md/quest/login folosind POST, primind instructiunile pentru urmatorul pas
 
+![image](https://github.com/user-attachments/assets/51a97c35-0c1e-477a-82e9-aed20eeaad56)
+
+Dupa ce am trimit ultimul GET request am obtinut urmatorul rezultat:
+
+![image](https://github.com/user-attachments/assets/5f85bb0c-d03a-4162-afa5-a37e734bfeda)
+
 
 
 
