@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Details</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: red;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: #333;
+            border: 1px solid red;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .card-title, .card-text {
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: red;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: darkred;
+        }
+
+        .btn-secondary {
+            background-color: gray;
+            border: none;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: darkgray;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Task Details</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Task ID: <span th:text="${task.id}"></span></h5>
+            <p class="card-text">Task Name: <span th:text="${task.name}"></span></p>
+            <a th:href="@{/tasks/{id}/edit(id=${task.id})}" class="btn btn-primary">Edit Task</a>
+            <a href="/tasks" class="btn btn-secondary">Back to Task List</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

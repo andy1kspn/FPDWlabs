@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Index Page</title>
+    <title>About us</title>
     <style>
         body {
             background-color: black;
@@ -19,10 +19,8 @@
             color: red;
             margin-bottom: 20px;
         }
-
         a {
             text-decoration: none;
-            margin: 0 10px;
         }
 
         button {
@@ -39,22 +37,12 @@
         button:hover {
             background-color: darkred;
         }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-        }
     </style>
 </head>
 <body>
-<h1>Welcome to the Index Page!</h1>
-<div class="button-container">
-    <a href="/index/desprenoi">
-        <button type="button">Despre Noi</button>
-    </a>
-    <a href="/tasks">
-        <button type="button">Tasks</button>
-    </a>
-</div>
+<h1>Despre noi!</h1>
+<a href="/index">
+    <button type="button">Acasa</button>
+</a>
 </body>
 </html>

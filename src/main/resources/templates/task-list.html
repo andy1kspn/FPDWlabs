@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista Sarcinilor</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: red;
+        }
+
+        main {
+            text-align: center;
+        }
+
+        h2 {
+            color: red;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: red;
+        }
+
+        button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+
+        .add-button-container {
+            display: flex;
+            justify-content: center;  
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Lista Sarcinilor</h1>
+</header>
+<main>
+    <h2>Sarcinile Tale</h2>
+    <ul>
+        <li th:each="task : ${tasks}">
+            <a th:href="@{/tasks/{id}(id=${task.id})}" th:text="${task.name}"></a>
+            <form action="#" th:action="@{/tasks/{id}/delete(id=${task.id})}" method="post" style="display:inline;">
+                <button type="submit">Șterge</button>
+            </form>
+        </li>
+    </ul>
+</main>
+<div class="add-button-container">
+    <a href="/tasks/create">
+        <button type="button">Adaugă</button>
+    </a>
+</div>
+</body>
+</html>
