@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Coding Battle - Game</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <script th:src="@{/webjars/sockjs-client/1.5.1/sockjs.min.js}"></script>
+  <script th:src="@{/webjars/stomp-websocket/2.3.4/stomp.min.js}"></script>
+  <script th:src="@{/js/websocket.js}"></script>
+  <script th:src="@{/js/game.js}"></script>
+</head>
+<body>
+<div class="container">
+  <input type="hidden" id="playerId" th:value="${playerId}"/>
+  <div class="game-container">
+    <div class="players-panel">
+      <h2>Players</h2>
+      <div id="players-list"></div>
+    </div>
+    <div class="challenge-area">
+      <div id="challenge-description"></div>
+      <textarea id="answer-input"></textarea>
+      <button id="submit-answer">Submit Answer</button>
+    </div>
+  </div>
+</div>
+<script th:src="@{/js/websocket.js}"></script>
+<script th:src="@{/js/game.js}"></script>
+</body>
+</html>
