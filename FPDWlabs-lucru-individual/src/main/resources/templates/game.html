@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coding Battle - Game</title>
+  <link rel="stylesheet" href="/static/css/main.css">
+  <script src="/static/js/editor.js" defer></script>
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Coding Battle</h1>
+      <p>Challenge your coding skills in a fast-paced trivia game!</p>
+    </header>
+    <main class="game-container">
+      <section class="players-panel">
+        <h2>Players</h2>
+        <div id="players-list">
+          <div class="player-box current-player">Player 1</div>
+          <div class="player-box">Player 2</div>
+          <div class="player-box">Player 3</div>
+        </div>
+      </section>
+      <section class="challenge-area">
+        <h2>Current Challenge</h2>
+        <div id="challenge-description">Describe your answer or provide a coding solution below:</div>
+        <div class="response-area">
+          <div class="response-header">
+            <span>Response Type:</span>
+            <button id="toggle-response" class="toggle-btn">Switch to Code</button>
+          </div>
+          <pre id="answer-input" contenteditable="true" placeholder="Type your answer here..."></pre>
+          <div id="code-editor" class="hidden">
+            <div class="line-numbers"></div>
+            <pre class="code-content" contenteditable="true"></pre>
+          </div>
+        </div>
+        <button id="submit-answer">Submit Answer</button>
+      </section>
+    </main>
+    <footer class="footer">
+      <p>&copy; 2024 Coding Battle. All rights reserved.</p>
+    </footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,192 @@
+/* main.css */
+:root {
+  --primary-color: #1e90ff;
+  --secondary-color: #87cefa;
+  --accent-color: #1c1c1e;
+  --background-color: #f7f8fa;
+  --text-color: #1c1c1e;
+  --button-hover: #4682b4;
+  --editor-bg: #1e1e1e;
+  --editor-line-bg: #252526;
+  --editor-text-color: #dcdcdc;
+  --current-player-bg: #104e8b;
+  --keyword-color: #569cd6;
+  --variable-color: #9cdcfe;
+  --function-color: #dcdcaa;
+  --string-color: #ce9178;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.header p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.game-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+  gap: 20px;
+}
+
+.players-panel {
+  width: fit-content;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+
+
+.players-panel h2 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.player-box {
+  background: var(--secondary-color);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.current-player {
+  background: var(--current-player-bg);
+  color: white;
+}
+
+.challenge-area {
+  width: 70%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.response-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.toggle-btn {
+  background: var(--primary-color);
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.toggle-btn:hover {
+  background: var(--button-hover);
+}
+
+#answer-input{
+    height: 100px;
+    border-style: solid;
+    border-radius: 10px;
+}
+
+textarea#answer-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--accent-color);
+  border-radius: 5px;
+  font-size: 1rem;
+  resize: none;
+}
+
+#code-editor {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: var(--editor-bg);
+  color: var(--editor-text-color);
+  border-radius: 5px;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  overflow: auto;
+}
+
+#code-editor.hidden {
+  display: none;
+}
+
+.line-numbers {
+    background: var(--editor-line-bg);
+    color: var(--editor-text-color);
+    text-align: right;
+    padding: 10px 0;
+    /* Elimină padding-ul stânga/dreapta */
+    width: 40px;
+    height: 100%;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    flex-shrink: 0;
+}
+
+.line-numbers div {
+    line-height: 1.445;
+    padding: 0 10px;
+    /* Adaugă padding stânga/dreapta pentru div-uri */
+}
+
+.code-content {
+    padding: 10px;
+    margin: 0;
+    /* Elimină orice margin */
+    outline: none;
+    flex-grow: 1;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    /* Asigură-te că line-height este setat și aici */
+}
+
+.code-content span.keyword {
+  color: var(--keyword-color);
+}
+
+.code-content span.variable {
+  color: var(--variable-color);
+}
+
+.code-content span.function {
+  color: var(--function-color);
+}
+
+.code-content span.string {
+  color: var(--string-color);
+}
