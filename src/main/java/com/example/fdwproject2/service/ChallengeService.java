@@ -23,6 +23,14 @@ public class ChallengeService {
 
     private List<Challenge> currentGameChallenges;
     private int currentChallengeIndex = 0;
+
+    public boolean hasNextChallenge() {
+        if (currentGameChallenges == null) {
+            return true; // încă nu am inițializat provocările
+        }
+        return currentChallengeIndex < currentGameChallenges.size();
+    }
+
     public Challenge getCurrentChallenge() {
         GameSession session = gameSessionRepository.getCurrentSession();
         if (session == null || session.getStatus() != GameStatus.IN_PROGRESS) {
@@ -128,7 +136,6 @@ public class ChallengeService {
                 normalizedCorrectAnswer.contains(normalizedUserAnswer);
     }
 
-    // Metodă pentru resetarea provocărilor
     public void resetChallenges() {
         currentGameChallenges = null;
         currentChallengeIndex = 0;

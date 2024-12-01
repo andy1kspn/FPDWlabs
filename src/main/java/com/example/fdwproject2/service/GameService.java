@@ -8,6 +8,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Service
 public class GameService {
     @Autowired
@@ -24,6 +27,9 @@ public class GameService {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+
+    private Set<Long> submittedPlayers = new HashSet<>();
+
     public boolean isGameAvailable() {
         return gameSessionRepository.isGameAvailable();
     }
@@ -35,32 +41,25 @@ public class GameService {
 
         Player player = playerRepository.createPlayer();
         if (player != null) {
+            player.setReady(true);
+
             GameSession session = gameSessionRepository.getCurrentSession();
             session.addPlayer(player);
             gameSessionRepository.saveSession(session);
+
+            // Notifică toți clienții despre noul jucător
+            messagingTemplate.convertAndSend("/topic/game-updates", getCurrentGameState());
+
+            if (shouldStartGame()) {
+                startGame();
+                messagingTemplate.convertAndSend("/topic/game-status", "STARTED");
+            }
         }
         return player;
     }
 
-    public boolean shouldStartGame() {
-        GameSession session = gameSessionRepository.getCurrentSession();
-        return session.isFull() && session.areAllPlayersReady();
-    }
-
-    public void startGame() {
-        GameSession session = gameSessionRepository.getCurrentSession();
-        session.setStatus(GameStatus.IN_PROGRESS);
-        session.setCurrentRound(1);
-        session.setCurrentChallenge(challengeService.getNextChallenge());
-        session.setRoundStartTime(System.currentTimeMillis());
-        gameSessionRepository.saveSession(session);
-
-        messagingTemplate.convertAndSend("/topic/game-updates", getCurrentGameState());
-        messagingTemplate.convertAndSend("/topic/challenge", session.getCurrentChallenge());
-    }
-
-    public void processSubmission(Submission submission) {
-        if (submission == null) {
+    public synchronized void processSubmission(Submission submission) {
+        if (submittedPlayers.contains(submission.getPlayerId())) {
             return;
         }
 
@@ -80,6 +79,66 @@ public class GameService {
             player.setScore(player.getScore() + score);
             playerRepository.updatePlayer(player);
         }
+
+        submittedPlayers.add(submission.getPlayerId());
+
+        if (submittedPlayers.size() == session.getPlayers().size()) {
+            // Trimite rezultatele
+            Map<Long, Integer> scores = session.getPlayers().stream()
+                    .collect(Collectors.toMap(
+                            Player::getId,
+                            Player::getScore));
+
+            messagingTemplate.convertAndSend("/topic/submissions-status",
+                    Map.of("allSubmitted", true, "scores", scores));
+
+            // Reset pentru următoarea rundă
+            submittedPlayers.clear();
+
+            // Dacă mai sunt întrebări, pregătește următoarea
+            if (challengeService.hasNextChallenge()) {
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        session.setCurrentChallenge(challengeService.getNextChallenge());
+                        session.setRoundStartTime(System.currentTimeMillis());
+                        gameSessionRepository.saveSession(session);
+                        messagingTemplate.convertAndSend("/topic/challenge",
+                                session.getCurrentChallenge());
+                    }
+                }, 3000); // Așteaptă 3 secunde înainte de următoarea întrebare
+            } else {
+                // Jocul s-a terminat
+                endGame(session);
+            }
+        }
+
+        // Notifică toți clienții despre actualizarea scorurilor
+        messagingTemplate.convertAndSend("/topic/game-updates", getCurrentGameState());
+    }
+    private void endGame(GameSession session) {
+        session.setStatus(GameStatus.FINISHED);
+        gameSessionRepository.saveSession(session);
+        messagingTemplate.convertAndSend("/topic/game-status", "FINISHED");
+        messagingTemplate.convertAndSend("/topic/game-updates", getCurrentGameState());
+    }
+
+    public boolean shouldStartGame() {
+        GameSession session = gameSessionRepository.getCurrentSession();
+        return session.isFull();
+    }
+
+    public void startGame() {
+        GameSession session = gameSessionRepository.getCurrentSession();
+        session.setStatus(GameStatus.IN_PROGRESS);
+        session.setCurrentRound(1);
+        session.setCurrentChallenge(challengeService.getNextChallenge());
+        session.setRoundStartTime(System.currentTimeMillis());
+        gameSessionRepository.saveSession(session);
+
+        messagingTemplate.convertAndSend("/topic/game-updates", getCurrentGameState());
+        messagingTemplate.convertAndSend("/topic/challenge", session.getCurrentChallenge());
     }
 
     private int calculateTimeBonus(long startTime) {
@@ -95,17 +154,19 @@ public class GameService {
     public void handlePlayerDisconnect(Long playerId) {
         GameSession session = gameSessionRepository.getCurrentSession();
         if (session.getStatus() == GameStatus.IN_PROGRESS) {
-            session.setStatus(GameStatus.FINISHED);
-            gameSessionRepository.saveSession(session);
+            endGame(session);
         } else {
             session.getPlayers().removeIf(p -> p.getId().equals(playerId));
             playerRepository.reset();
             gameSessionRepository.saveSession(session);
+            messagingTemplate.convertAndSend("/topic/game-updates", getCurrentGameState());
         }
     }
+
     public GameSession getCurrentSession() {
         return gameSessionRepository.getCurrentSession();
     }
+
     public boolean isGameInProgress() {
         GameSession session = gameSessionRepository.getCurrentSession();
         return session != null && session.getStatus() == GameStatus.IN_PROGRESS;
@@ -136,23 +197,5 @@ public class GameService {
         }
         return getCurrentGameState();
     }
-    public void setPlayerReady(Long playerId) {
-        Player player = playerRepository.getPlayer(playerId);
-        if (player != null) {
-            player.setReady(true);
-            playerRepository.updatePlayer(player);
-        }
-    }
-
-    public boolean areAllPlayersReady() {
-        GameSession session = gameSessionRepository.getCurrentSession();
-        return session != null &&
-                session.getPlayers() != null &&
-                !session.getPlayers().isEmpty() &&
-                session.getPlayers().stream().allMatch(Player::isReady);
-    }
-
-    public Challenge getNextChallenge() {
-        return challengeService.getNextChallenge();
-    }
+    
 }

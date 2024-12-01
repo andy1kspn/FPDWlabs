@@ -1,5 +1,6 @@
 package com.example.fdwproject2.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class Player {
 
     private String currentAnswer;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "game_session_id")
     private GameSession gameSession;
@@ -30,6 +32,6 @@ public class Player {
     public Player(Long id) {
         this.id = id;
         this.score = 0;
-        this.isReady = false;
+        this.isReady = true;
     }
 }

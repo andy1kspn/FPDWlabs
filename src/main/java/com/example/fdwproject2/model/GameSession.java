@@ -1,5 +1,6 @@
 package com.example.fdwproject2.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ public class GameSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sessionId;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "gameSession", cascade = CascadeType.ALL)
     private List<Player> players = new ArrayList<>();
 
@@ -39,9 +41,6 @@ public class GameSession {
     @Column(name = "score")
     private Map<Long, Integer> scores = new HashMap<>();
 
-    public boolean isFull() {
-        return players != null && players.size() >= 3;
-    }
 
     public boolean areAllPlayersReady() {
         return players != null &&
@@ -49,13 +48,21 @@ public class GameSession {
                 players.stream().allMatch(Player::isReady);
     }
 
+    public boolean isFull() {
+        return players != null && players.size() >= 3;
+    }
+
     public void addPlayer(Player player) {
         if (players == null) {
             players = new ArrayList<>();
         }
         if (!isFull()) {
+            player.setGameSession(this);
             players.add(player);
-            scores.put(player.getId(), 0);
         }
+    }
+
+    public boolean canJoin() {
+        return !isFull() && status == GameStatus.WAITING;
     }
 }
