@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<div class="form-container" style="max-width: 800px;">
+    <div class="dashboard-card">
+        <h3>Welcome, <span sec:authentication="principal.username"></span></h3>
+        <p>Role: <span sec:authentication="principal.authorities"></span></p>
+    </div>
+
+    <div sec:authorize="hasRole('ADMIN')" class="dashboard-card">
+        <h3>User Management</h3>
+        <div class="attempts-list">
+            <div th:each="user : ${users}" class="attempt">
+                <p>Username: <span th:text="${user.username}"></span></p>
+                <p>Current Role: <span th:text="${user.role}"></span></p>
+                <form th:action="@{/admin/changeRole}" method="post">
+                    <input type="hidden" name="userId" th:value="${user.id}">
+                    <select name="newRole" class="input-field">
+                        <option value="ROLE_USER">User</option>
+                        <option value="ROLE_ADMIN">Admin</option>
+                    </select>
+                    <button type="submit" class="button">Change Role</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Access Log</h3>
+        <div class="attempts-list">
+            <div th:each="attempt : ${loginAttempts}" class="attempt">
+                <p>Username: <span th:text="${attempt.user.username}"></span></p>
+                <p>Time: <span th:text="${#temporals.format(attempt.timestamp, 'dd-MM-yyyy HH:mm:ss')}"></span></p>
+                <p>IP: <span th:text="${attempt.ipAddress}"></span></p>
+                <p>Action: <span th:text="${attempt.action}"></span></p>
+                <p>Status: <span th:text="${attempt.successful ? 'Success' : 'Failed'}"
+                                 th:style="${attempt.successful ? 'color: green;' : 'color: red;'}"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="button">Logout</button>
+    </form>
+</div>
+</body>
+</html>

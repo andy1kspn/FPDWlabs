@@ -1,0 +1,69 @@
+/* main.css */
+:root {
+  --background: #e0e5ec;
+  --text-primary: #2d4263;
+  --shadow-light: #ffffff;
+  --shadow-dark: #a3b1c6;
+}
+
+body {
+  background: var(--background);
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--text-primary);
+  margin: 0;
+  padding: 20px;
+}
+
+.form-container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 20px;
+  background: var(--background);
+  box-shadow: 8px 8px 15px var(--shadow-dark),
+              -8px -8px 15px var(--shadow-light);
+}
+
+.input-field {
+  width: 100%;
+  margin: 15px 0;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: var(--background);
+  box-shadow: inset 5px 5px 10px var(--shadow-dark),
+              inset -5px -5px 10px var(--shadow-light);
+}
+
+.button {
+  width: 100%;
+  padding: 12px;
+  margin: 20px 0;
+  border: none;
+  border-radius: 10px;
+  background: var(--background);
+  box-shadow: 5px 5px 10px var(--shadow-dark),
+              -5px -5px 10px var(--shadow-light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  box-shadow: 3px 3px 5px var(--shadow-dark),
+              -3px -3px 5px var(--shadow-light);
+}
+
+.dashboard-card {
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 15px;
+  background: var(--background);
+  box-shadow: 5px 5px 10px var(--shadow-dark),
+              -5px -5px 10px var(--shadow-light);
+}
+
+.attempts-list {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+}
