@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashSet;
 import java.util.List;
@@ -35,7 +36,8 @@ public class TaskController {
     public String createTask(@RequestParam String title,
                              @RequestParam String description,
                              @RequestParam(required = false) Long categoryId,
-                             @RequestParam(required = false) Set<Long> tagIds) {
+                             @RequestParam(required = false) Set<Long> tagIds,
+                             RedirectAttributes redirectAttributes) {
         TaskDTO taskDTO = TaskDTO.builder()
                 .title(title)
                 .description(description)
@@ -43,6 +45,7 @@ public class TaskController {
                 .tagIds(tagIds != null ? tagIds : new HashSet<>())
                 .build();
         taskService.createTask(taskDTO);
+        redirectAttributes.addFlashAttribute("successMessage", "Task created successfully!");
         return "redirect:/tasks";
     }
 
@@ -51,7 +54,8 @@ public class TaskController {
                              @RequestParam String title,
                              @RequestParam String description,
                              @RequestParam(required = false) Long categoryId,
-                             @RequestParam(required = false) Set<Long> tagIds) {
+                             @RequestParam(required = false) Set<Long> tagIds,
+                             RedirectAttributes redirectAttributes) {
         TaskDTO taskDTO = TaskDTO.builder()
                 .id(id)
                 .title(title)
@@ -60,12 +64,14 @@ public class TaskController {
                 .tagIds(tagIds != null ? tagIds : new HashSet<>())
                 .build();
         taskService.updateTask(id, taskDTO);
+        redirectAttributes.addFlashAttribute("successMessage", "Task updated successfully!");
         return "redirect:/tasks";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteTask(@PathVariable Long id) {
+    public String deleteTask(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         taskService.deleteTask(id);
+        redirectAttributes.addFlashAttribute("successMessage", "Task deleted successfully!");
         return "redirect:/tasks";
     }
 }

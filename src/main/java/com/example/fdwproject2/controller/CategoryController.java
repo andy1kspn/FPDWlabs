@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -23,31 +24,37 @@ public class CategoryController {
     }
 
     @PostMapping
-    public String createCategory(@RequestParam String name, @RequestParam String description) {
+    public String createCategory(@RequestParam String name,
+                                 @RequestParam String description,
+                                 RedirectAttributes redirectAttributes) {
         CategoryDTO categoryDTO = CategoryDTO.builder()
                 .name(name)
                 .description(description)
                 .build();
         categoryService.createCategory(categoryDTO);
+        redirectAttributes.addFlashAttribute("successMessage", "Category created successfully!");
         return "redirect:/categories";
     }
 
     @PostMapping("/{id}")
     public String updateCategory(@PathVariable Long id,
                                  @RequestParam String name,
-                                 @RequestParam String description) {
+                                 @RequestParam String description,
+                                 RedirectAttributes redirectAttributes) {
         CategoryDTO categoryDTO = CategoryDTO.builder()
                 .id(id)
                 .name(name)
                 .description(description)
                 .build();
         categoryService.updateCategory(id, categoryDTO);
+        redirectAttributes.addFlashAttribute("successMessage", "Category updated successfully!");
         return "redirect:/categories";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteCategory(@PathVariable Long id) {
+    public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         categoryService.deleteCategory(id);
+        redirectAttributes.addFlashAttribute("successMessage", "Category deleted successfully!");
         return "redirect:/categories";
     }
 }
