@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="hero-section">
+        <h1>Welcome to Our Restaurant</h1>
+        <p>Discover our exquisite menu and place your order today</p>
+        <a th:href="@{/menu}" class="btn btn-primary">View Menu</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<nav th:fragment="navbar" class="navbar">
+    <div class="navbar-container">
+        <div class="logo">
+            <a th:href="@{/}">Luxury Restaurant</a>
+        </div>
+
+        <div class="nav-links">
+            <a th:href="@{/menu}" class="nav-link">Menu</a>
+            <th:block sec:authorize="hasRole('CLIENT')">
+                <a th:href="@{/orders}" class="nav-link">My Orders</a>
+            </th:block>
+            <th:block sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/dashboard}" class="nav-link">Dashboard</a>
+                <a th:href="@{/admin/menu-management}" class="nav-link">Manage Menu</a>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+                <a th:href="@{/logout}" class="nav-link nav-link-logout">Logout</a>
+            </th:block>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <title>My Orders</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>My Orders</h1>
+    <div class="orders-list">
+        <div th:each="order : ${orders}" class="order-card">
+            <div class="order-header">
+                <h3 th:text="${'Order #' + order.id}"></h3>
+                <span th:text="${order.orderDate}" class="order-date"></span>
+            </div>
+            <div class="order-items">
+                <div th:each="item : ${order.items}" class="order-item">
+                    <span th:text="${item.menuItem.name}"></span>
+                    <span th:text="${item.quantity + ' x $' + item.price}"></span>
+                </div>
+            </div>
+            <div class="order-footer">
+                <span th:text="${'Total: $' + order.totalAmount}" class="order-total"></span>
+                <span th:text="${order.status}" class="order-status"></span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

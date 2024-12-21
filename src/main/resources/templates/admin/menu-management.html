@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <title>Menu Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Menu Management</h1>
+
+    <!-- Add New Item Form -->
+    <div class="add-item-form">
+        <h2>Add New Menu Item</h2>
+        <form th:action="@{/admin/menu/add}" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" id="price" name="price" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="categoryId">Category</label>
+                <select id="categoryId" name="categoryId" required>
+                    <option th:each="category : ${categories}"
+                            th:value="${category.id}"
+                            th:text="${category.name}">
+                    </option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Item</button>
+        </form>
+    </div>
+
+    <!-- Existing Menu Items -->
+    <div class="menu-items-list">
+        <h2>Current Menu Items</h2>
+        <div class="menu-grid">
+            <div th:each="item : ${menuItems}" class="menu-item">
+                <div class="menu-item-content">
+                    <h3 th:text="${item.name}"></h3>
+                    <p th:text="${item.description}"></p>
+                    <p th:text="${'$' + item.price}"></p>
+                    <form th:action="@{/admin/menu/delete/{id}(id=${item.id})}"
+                          method="post"
+                          onsubmit="return confirm('Are you sure?');">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
